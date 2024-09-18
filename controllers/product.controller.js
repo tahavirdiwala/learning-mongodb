@@ -48,11 +48,8 @@ const updateProduct = async (req, res) => {
   const id = req.params.id;
 
   const options = { new: true };
-  const { name, price } = req.body;
 
-  const payload = { name, price };
-
-  ProductModel.findByIdAndUpdate(id, payload, options).then(
+  ProductModel.findByIdAndUpdate(id, req.body, options).then(
     (response, error) => {
       if (error)
         sendResponse(res, StatusCodes.BAD_REQUEST, "Failed to Update Product");
