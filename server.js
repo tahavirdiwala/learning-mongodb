@@ -4,14 +4,12 @@ const connectDB = require("./db/connect");
 const app = express();
 const productRouter = require("./routes/product.router");
 const userRouter = require("./routes/users.router");
-// const profileRouter = require("./routes/profiles.router");
 const cors = require("cors");
 const ProductSchema = require("./models/products");
 const User = require("./models/users");
-// const Profiles = require("./models/profiles");
 const Cars = require("./models/cars");
-// const CustomerModel = require("./models/customer");
-// const IdentifiersModel = require("./models/indentifier");
+// const Profiles = require("./models/profiles");
+// const profileRouter = require("./routes/profiles.router");
 
 app.use(cors());
 app.use(express.json());
