@@ -133,7 +133,7 @@ const getAggregateProducts = async (req, res) => {
 
     sendResponse(res, StatusCodes.OK, "Product Fetched SuccessFully", result);
   } catch (err) {
-    console.log(err);
+    sendResponse(res, StatusCodes.BAD_REQUEST, "Failed to Fetched Products");
   }
 };
 
