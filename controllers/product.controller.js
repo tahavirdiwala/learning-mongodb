@@ -3,18 +3,14 @@ const ProductModel = require("../models/products");
 const sendResponse = require("../common");
 
 const addProduct = async (req, res) => {
-  const { name, description, price } = req.body;
+  try {
+    ProductModel.create(req.body).then((resp) => {
+      sendResponse(res, StatusCodes.OK, "Products Added SuccessFully", resp);
+    });
+  } catch (err) {
+    sendResponse(res, StatusCodes.CREATED, `${err.message}`);
+  }
 
-  const payload = { name, description, price };
-  ProductModel.create(payload).then((resp) => { 
-    sendResponse(res, StatusCodes.OK, "Products Fetched SuccessFully", resp);
-  }).catch(err=>{
-    sendResponse(
-      res,
-      StatusCodes.CREATED,
-      `${err.message}`,
-    );
-  })
 };
 
 const getProducts = async (req, res) => {
@@ -22,8 +18,8 @@ const getProducts = async (req, res) => {
 
   const selectors = {
     name: 1,
-    price: 1
-  }
+    price: 1,
+  };
 
   ProductModel.find()
     .skip((page - 1) * size)
@@ -115,35 +111,31 @@ const getAggregateProducts = async (req, res) => {
 
   try {
     const result = await ProductModel.aggregate([
-    {
-      $group: {
-        _id: "$name",
-        properties: {
-          $push: {
-            name: "$name",
-            price: "$price",
+      {
+        $group: {
+          _id: "$name",
+          properties: {
+            $push: {
+              name: "$name",
+              price: "$price",
+            },
           },
         },
       },
-    },
-    {
-      $project: {    
-        name: "$_id",
-        _id: false,
-        properties: "$properties",
+      {
+        $project: {
+          name: "$_id",
+          _id: false,
+          properties: "$properties",
+        },
       },
-    },
-  ]);
+    ]);
 
     sendResponse(res, StatusCodes.OK, "Product Fetched SuccessFully", result);
-
-  } catch(err) {
+  } catch (err) {
     console.log(err);
-    
   }
-
 };
-
 
 module.exports = {
   addProduct,
