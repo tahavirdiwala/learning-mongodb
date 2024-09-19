@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import ProductsModel from "./models/products";
 
 const safeModel = <T>(model: mongoose.Model<T>) => ({
     find: async (query: Partial<T>) => await model.find(query),
@@ -8,4 +7,3 @@ const safeModel = <T>(model: mongoose.Model<T>) => ({
     create: async (data: Partial<T>) => await model.create(data),
 });
 
-console.log('safeModel', safeModel(ProductsModel) );
