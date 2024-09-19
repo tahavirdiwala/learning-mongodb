@@ -5,8 +5,12 @@ const User = require("../models/users");
 const getUsers = async (req, res) => {
   try {
     // const users = await User.find().populate("cars") // relation with populate
-    const users = await User.aggregate([ // relation with aggregate lookup
-      {$lookup: {
+    
+    // relation with aggregate lookup
+    const users = await User
+    .aggregate([ 
+      {
+        $lookup: {
         from : "cars",
         localField: "cars",
         foreignField: "_id",
