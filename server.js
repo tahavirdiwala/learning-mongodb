@@ -8,8 +8,6 @@ const cors = require("cors");
 const ProductSchema = require("./models/products");
 const User = require("./models/users");
 const Cars = require("./models/cars");
-// const Profiles = require("./models/profiles");
-// const profileRouter = require("./routes/profiles.router");
 
 app.use(cors());
 app.use(express.json());
