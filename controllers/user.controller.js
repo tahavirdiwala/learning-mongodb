@@ -19,10 +19,10 @@ const getUsers = async (req, res) => {
     ])
     sendResponse(res, StatusCodes.OK, "Users Fetched SuccessFully", users);
   } catch (err) {
-    sendResponse(res, StatusCodes.BAD_REQUEST, `${err.message}`);
+    sendResponse(res, StatusCodes.BAD_REQUEST, err.message);
   }
 };
 
 module.exports = {
     getUsers
-}
+}``
