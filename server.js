@@ -49,7 +49,6 @@ const start = async () => {
       username: "test",
       cars: cars
     })
-   
     //  await cars.save()
     //  await user.save()
   }
