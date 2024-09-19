@@ -6,18 +6,15 @@ const addProduct = async (req, res) => {
   const { name, description, price } = req.body;
 
   const payload = { name, description, price };
-  ProductModel.create(payload).then((_, error) => {
-    if (error) {
-      sendResponse(res, StatusCodes.BAD_REQUEST, "Failed to Created Product");
-    } else {
-      sendResponse(
-        res,
-        StatusCodes.CREATED,
-        "Product Created Successfully",
-        payload
-      );
-    }
-  });
+  ProductModel.create(payload).then((resp) => { 
+    sendResponse(res, StatusCodes.OK, "Products Fetched SuccessFully", resp);
+  }).catch(err=>{
+    sendResponse(
+      res,
+      StatusCodes.CREATED,
+      `${err.message}`,
+    );
+  })
 };
 
 const getProducts = async (req, res) => {
@@ -31,6 +28,7 @@ const getProducts = async (req, res) => {
   ProductModel.find()
     .skip((page - 1) * size)
     .limit(size * 1)
+    .lean()
     // .select(selectors)
     .then((response, error) => {
       if (error) {

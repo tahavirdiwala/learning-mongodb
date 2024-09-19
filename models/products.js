@@ -23,6 +23,7 @@ const productSchema = new mongoose.Schema(
     price: {
       type: Number,
       require: false,
+      min: [5, "very less"],
       index: true,
     },
   },
