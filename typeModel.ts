@@ -8,4 +8,4 @@ const safeModel = <T>(model: mongoose.Model<T>) => ({
     create: async (data: Partial<T>) => await model.create(data),
 });
 
-console.log('safeModel', safeModel(ProductsModel));
+console.log('safeModel', safeModel(ProductsModel) );
