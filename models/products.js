@@ -28,15 +28,15 @@ const productSchema = new mongoose.Schema(
   },
   { 
     timestamps: true,
-    toObject: {virtuals:true},
-    toJSON: {virtuals:true},
+    // toObject: {virtuals:true},
+    // toJSON: {virtuals:true},
 }
 );
 
 // virtual example
-productSchema.virtual("productPrice").get(function(){
-  return this.price * 2;
-}) 
+// productSchema.virtual("productPrice").get(function(){
+//   return this.price * 2;
+// }) 
 
 // mongoose middleware examples
 // productSchema.pre("find", function () {

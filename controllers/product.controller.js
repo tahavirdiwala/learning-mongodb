@@ -23,9 +23,15 @@ const addProduct = async (req, res) => {
 const getProducts = async (req, res) => {
   const { page = 1, size = 10 } = req.params;
 
+  const selectors = {
+    name: 1,
+    price: 1
+  }
+
   ProductModel.find()
-    .limit(size * 1)
     .skip((page - 1) * size)
+    .limit(size * 1)
+    // .select(selectors)
     .then((response, error) => {
       if (error) {
         sendResponse(
