@@ -132,26 +132,43 @@ const getAggregateProducts = async (req, res) => {
     //   },
     // ]);
 
+    // const result = await ProductModel.aggregate([
+    //   {
+    //     $group: {
+    //       _id: "$name",
+    //       temp: {
+    //         $push: {
+    //           name: "$name",
+    //           price: "$price",
+    //         },
+    //       },
+    //     },
+    //   },
+    //   {
+    //     $project: {
+    //       name: "$_id",
+    //       _id: false,
+    //       temp: "$temp",
+    //     },
+    //   },
+    // ]);
+
+
     const result = await ProductModel.aggregate([
       {
         $group: {
           _id: "$name",
           temp: {
-            $push: {
-              name: "$name",
-              price: "$price",
-            },
-          },
-        },
-      },
-      {
+            $push: "$$ROOT"
+          }
+        }
+      }, {
         $project: {
-          name: "$_id",
-          _id: false,
-          temp: "$temp",
-        },
-      },
-    ]);
+          _id: 0,
+          temp: 1
+        }
+      }
+    ])
 
     sendResponse(res, StatusCodes.OK, "Product Fetched SuccessFully", result);
   } catch (err) {
