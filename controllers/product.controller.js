@@ -8,7 +8,7 @@ const addProduct = async (req, res) => {
       sendResponse(res, StatusCodes.OK, "Products Added SuccessFully", resp);
     });
   } catch (err) {
-    sendResponse(res, StatusCodes.BAD_GATEWAY, `${err.message}`);
+    sendResponse(res, StatusCodes.BAD_GATEWAY, err.message);
   }
 };
 
@@ -84,11 +84,13 @@ const getProduct = async (req, res) => {
 const deleteProduct = async (req, res) => {
   const id = req.params.id;
 
-  ProductModel.findByIdAndDelete(id).then((response, err) => {
-    if (err)
-      sendResponse(res, StatusCodes.BAD_REQUEST, "Failed to Delete Product");
-    else sendResponse(res, StatusCodes.OK, "Product Deleted Successfully");
-  });
+  try {
+    ProductModel.findByIdAndDelete(id).then(() => {
+      sendResponse(res, StatusCodes.OK, "Product Deleted Successfully");
+    });
+  } catch (err) {
+    sendResponse(res, StatusCodes.BAD_REQUEST, "Failed to Delete Product");
+  }
 };
 
 //aggregation pipeline example
@@ -130,7 +132,6 @@ const getAggregateProducts = async (req, res) => {
     //   },
     // ]);
 
-
     const result = await ProductModel.aggregate([
       {
         $group: {
@@ -138,21 +139,21 @@ const getAggregateProducts = async (req, res) => {
           temp: {
             $push: {
               name: "$name",
-              price: "$price"
-            }
-          }
+              price: "$price",
+            },
+          },
         },
-      }, {
+      },
+      {
         $project: {
           name: "$_id",
           _id: false,
-          temp: "$temp"
-        }
-      }
-    ])
+          temp: "$temp",
+        },
+      },
+    ]);
 
-
-    sendResponse(res, StatusCodes.OK, "Product Fetched SuccessFully", result );
+    sendResponse(res, StatusCodes.OK, "Product Fetched SuccessFully", result);
   } catch (err) {
     sendResponse(res, StatusCodes.BAD_REQUEST, err.message);
   }
