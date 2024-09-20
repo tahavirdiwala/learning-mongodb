@@ -8,9 +8,8 @@ const addProduct = async (req, res) => {
       sendResponse(res, StatusCodes.OK, "Products Added SuccessFully", resp);
     });
   } catch (err) {
-    sendResponse(res, StatusCodes.CREATED, `${err.message}`);
+    sendResponse(res, StatusCodes.BAD_GATEWAY, `${err.message}`);
   }
-
 };
 
 const getProducts = async (req, res) => {
