@@ -2,8 +2,8 @@ const { addProduct, getProducts, updateProduct, getProduct, deleteProduct, getAg
 const router = require("express").Router();
 
 router.route("/products").post(addProduct)
-.get(getProducts)
-// .get(getAggregateProducts)
+// .get(getProducts)
+.get(getAggregateProducts)
 
 router.route("/products/:id")
 .get(getProduct)

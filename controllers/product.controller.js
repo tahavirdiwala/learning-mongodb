@@ -109,30 +109,51 @@ const getAggregateProducts = async (req, res) => {
   // ]);
 
   try {
+    // const result = await ProductModel.aggregate([
+    //   {
+    //     $group: {
+    //       _id: "$name",
+    //       properties: {
+    //         $push: {
+    //           name: "$name",
+    //           price: "$price",
+    //         },
+    //       },
+    //     },
+    //   },
+    //   {
+    //     $project: {
+    //       name: "$_id",
+    //       _id: false,
+    //       properties: "$properties",
+    //     },
+    //   },
+    // ]);
+
+
     const result = await ProductModel.aggregate([
       {
         $group: {
           _id: "$name",
-          properties: {
+          temp: {
             $push: {
               name: "$name",
-              price: "$price",
-            },
-          },
+              price: "$price"
+            }
+          }
         },
-      },
-      {
+      }, {
         $project: {
           name: "$_id",
           _id: false,
-          properties: "$properties",
-        },
-      },
-    ]);
+          temp: "$temp"
+        }
+      }
+    ])
 
-    sendResponse(res, StatusCodes.OK, "Product Fetched SuccessFully", result);
+    sendResponse(res, StatusCodes.OK, "Product Fetched SuccessFully", result );
   } catch (err) {
-    sendResponse(res, StatusCodes.BAD_REQUEST, "Failed to Fetched Products");
+    sendResponse(res, StatusCodes.BAD_REQUEST, err.message);
   }
 };
 
