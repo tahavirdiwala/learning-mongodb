@@ -14,7 +14,6 @@ const addProduct = async (req, res) => {
 
 const getProducts = async (req, res) => {
   try {
-
     //#region - body
     const { page = 1, size = 10 } = req.params;
     //#endregion - body
