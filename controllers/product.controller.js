@@ -14,13 +14,26 @@ const addProduct = async (req, res) => {
 
 const getProducts = async (req, res) => {
   try {
-    const { page = 1, size = 10 } = req.params;
 
+    //#region - body
+    const { page = 1, size = 10 } = req.params;
+    //#endregion - body
+
+    //#region - filters
+    const filters = {
+      name: "some filter",
+      price: 22,
+    };
+    //#endregion - filters
+
+    //#region - selectors
     const selectors = {
       name: 1,
       price: 1,
     };
+    //#endregion - selectors
 
+    //#region - queries
     ProductModel.find()
       .skip((page - 1) * size)
       .limit(size * 1)
@@ -34,8 +47,11 @@ const getProducts = async (req, res) => {
           response
         );
       });
+    //#endregion - queries
   } catch (err) {
-    sendResponse(res, StatusCodes.BAD_REQUEST, err.message);
+ //#region - error
+  sendResponse(res, StatusCodes.BAD_REQUEST, err.message);
+ //#endregion - error
   }
 };
 
