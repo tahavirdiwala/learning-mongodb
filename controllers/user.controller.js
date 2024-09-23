@@ -1,6 +1,6 @@
 const { StatusCodes } = require("http-status-codes");
+const sendResponse = require("../common");
 const User = require("../models/users");
-const responser = require("../common");
 
 const getUsers = async (req, res) => {
   try {
@@ -17,9 +17,9 @@ const getUsers = async (req, res) => {
         as: "cars"
       }}
     ])
-    responser(res, StatusCodes.OK, "Users Fetched SuccessFully", users);
+    sendResponse(res, StatusCodes.OK, "Users Fetched SuccessFully", users);
   } catch (err) {
-    responser(res, StatusCodes.BAD_REQUEST, err.message);
+    sendResponse(res, StatusCodes.BAD_REQUEST, err.message);
   }
 };
 

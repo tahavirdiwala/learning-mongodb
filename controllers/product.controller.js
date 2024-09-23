@@ -1,14 +1,14 @@
 const { StatusCodes } = require("http-status-codes");
 const ProductModel = require("../models/products");
-const responser = require("../common");
+const sendResponse = require("../common");
 
 const addProduct = async (req, res) => {
   try {
     ProductModel.create(req.body).then((resp) => {
-      responser(res, StatusCodes.OK, "Products Added SuccessFully", resp);
+      sendResponse(res, StatusCodes.OK, "Products Added SuccessFully", resp);
     });
   } catch (err) {
-    responser(res, StatusCodes.BAD_GATEWAY, err.message);
+    sendResponse(res, StatusCodes.BAD_GATEWAY, err.message);
   }
 };
 
@@ -27,7 +27,7 @@ const getProducts = async (req, res) => {
       .lean()
       // .select(selectors)
       .then((response) => {
-        responser(
+        sendResponse(
           res,
           StatusCodes.OK,
           "Products Fetched Successfully",
@@ -35,46 +35,44 @@ const getProducts = async (req, res) => {
         );
       });
   } catch (err) {
-    responser(res, StatusCodes.BAD_REQUEST, err.message);
+    sendResponse(res, StatusCodes.BAD_REQUEST, err.message);
   }
 };
 
 const updateProduct = async (req, res) => {
-  const id = req.params.id;
+  try {
+    const id = req.params.id;
 
-  const options = { new: true };
+    const options = { new: true };
 
-  ProductModel.findByIdAndUpdate(id, req.body, options).then(
-    (response, error) => {
-      if (error)
-        responser(res, StatusCodes.BAD_REQUEST, "Failed to Update Product");
-      else {
-        responser(
-          res,
-          StatusCodes.OK,
-          "Products Updated Successfully",
-          response
-        );
-      }
-    }
-  );
+    ProductModel.findByIdAndUpdate(id, req.body, options).then((response) => {
+      sendResponse(
+        res,
+        StatusCodes.OK,
+        "Products Updated Successfully",
+        response
+      );
+    });
+  } catch (err) {
+    sendResponse(res, StatusCodes.BAD_REQUEST, "Failed to Update Product");
+  }
 };
 
 const getProduct = async (req, res) => {
-  const id = req.param.id;
+  try {
+    const id = req.param.id;
 
-  ProductModel.findById(id).then((response) => {
-    if (error)
-      responser(res, StatusCodes.BAD_REQUEST, "Failed to Fetched Product");
-    else {
-      responser(
+    ProductModel.findById(id).then((response) => {
+      sendResponse(
         res,
         StatusCodes.OK,
         "Product Fetched Successfully",
         response
       );
-    }
-  });
+    });
+  } catch (err) {
+    sendResponse(res, StatusCodes.BAD_REQUEST, err.message);
+  }
 };
 
 const deleteProduct = async (req, res) => {
@@ -82,10 +80,10 @@ const deleteProduct = async (req, res) => {
 
   try {
     ProductModel.findByIdAndDelete(id).then(() => {
-      responser(res, StatusCodes.OK, "Product Deleted Successfully");
+      sendResponse(res, StatusCodes.OK, "Product Deleted Successfully");
     });
   } catch (err) {
-    responser(res, StatusCodes.BAD_REQUEST, "Failed to Delete Product");
+    sendResponse(res, StatusCodes.BAD_REQUEST, "Failed to Delete Product");
   }
 };
 
@@ -149,9 +147,9 @@ const getAggregateProducts = async (req, res) => {
       },
     ]);
 
-    responser(res, StatusCodes.OK, "Product Fetched SuccessFully", result);
+    sendResponse(res, StatusCodes.OK, "Product Fetched SuccessFully", result);
   } catch (err) {
-    responser(res, StatusCodes.BAD_REQUEST, err.message);
+    sendResponse(res, StatusCodes.BAD_REQUEST, err.message);
   }
 };
 
