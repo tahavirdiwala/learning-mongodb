@@ -35,20 +35,20 @@ const start = async () => {
 
 // one to one relationship
 
-  run();
+run();
 
-  async function run() {
-    const cars = new Cars({
-      make: "some material",
-      model: "2421", 
-    })
-    const user = new User({
-      email: "test@gmail.com",
-      username: "test",
-      cars: cars
-    })
-    //  await cars.save()
-    //  await user.save()
-  }
+async function run() {
+  const cars = new Cars({
+    make: "some material",
+    model: "2421",
+  });
+  const user = new User({
+    email: "test@gmail.com",
+    username: "test",
+    cars: cars,
+  });
+  //  await cars.save()
+  //  await user.save()
+}
 
 start();
