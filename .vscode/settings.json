@@ -1,5 +1,8 @@
 {
     "cSpell.words": [
         "endregion"
-    ]
+    ],
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
 }
