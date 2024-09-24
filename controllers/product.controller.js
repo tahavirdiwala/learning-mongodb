@@ -48,9 +48,9 @@ const getProducts = async (req, res) => {
       });
     //#endregion - queries
   } catch (err) {
- //#region - error
-  sendResponse(res, StatusCodes.BAD_REQUEST, err.message);
- //#endregion - error
+    //#region - error
+    sendResponse(res, StatusCodes.BAD_REQUEST, err.message);
+    //#endregion - error
   }
 };
 
