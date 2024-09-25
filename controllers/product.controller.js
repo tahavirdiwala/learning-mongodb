@@ -16,14 +16,11 @@ const getProducts = async (req, res) => {
   try {
     //#region - body
     const { page = 1, size = 10 } = req.params;
-    //#endregion - body
-
-    //#region - filters
     const filters = {
       name: "some filter",
       price: 22,
     };
-    //#endregion - filters
+    //#endregion - body
 
     //#region - selectors
     const selectors = {
