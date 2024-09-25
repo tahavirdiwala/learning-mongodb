@@ -1,105 +1,78 @@
 const { StatusCodes } = require("http-status-codes");
 const ProductModel = require("../models/products");
 const sendResponse = require("../common");
+const productService = require("../services/product.service");
 
-const addProduct = async (req, res) => {
-  try {
-    ProductModel.create(req.body).then((resp) => {
-      sendResponse(res, StatusCodes.OK, "Products Added SuccessFully", resp);
-    });
-  } catch (err) {
-    sendResponse(res, StatusCodes.BAD_GATEWAY, err.message);
+class ProductController {
+  async add(req, res) {
+    try {
+      const product = await productService.addProduct(req);
+      sendResponse(
+        res,
+        StatusCodes.CREATED,
+        "Product Added SuccessFully",
+        product
+      );
+    } catch (err) {
+      sendResponse(res, StatusCodes.BAD_REQUEST, err.message);
+    }
   }
-};
 
-const getProducts = async (req, res) => {
-  try {
-    //#region - body
-    const { page = 1, size = 10 } = req.params;
-    const filters = {
-      name: "some filter",
-      price: 22,
-    };
-    //#endregion - body
-
-    //#region - selectors
-    const selectors = {
-      name: 1,
-      price: 1,
-    };
-    //#endregion - selectors
-
-    //#region - queries
-    ProductModel.find()
-      .skip((page - 1) * size)
-      .limit(size * 1)
-      .lean()
-      // .select(selectors)
-      .then((response) => {
-        sendResponse(
-          res,
-          StatusCodes.OK,
-          "Products Fetched Successfully",
-          response
-        );
-      });
-    //#endregion - queries
-  } catch (err) {
-    //#region - error
-    sendResponse(res, StatusCodes.BAD_REQUEST, err.message);
-    //#endregion - error
-  }
-};
-
-const updateProduct = async (req, res) => {
-  try {
-    const id = req.params.id;
-
-    const options = { new: true };
-
-    ProductModel.findByIdAndUpdate(id, req.body, options).then((response) => {
+  async getAll(req, res) {
+    try {
+      const products = await productService.getProducts(req);
       sendResponse(
         res,
         StatusCodes.OK,
-        "Products Updated Successfully",
-        response
+        "Product Fetched SuccessFully",
+        products
       );
-    });
-  } catch (err) {
-    sendResponse(res, StatusCodes.BAD_REQUEST, "Failed to Update Product");
+    } catch (err) {
+      sendResponse(res, StatusCodes.BAD_REQUEST, err.message);
+    }
   }
-};
 
-const getProduct = async (req, res) => {
-  try {
-    const id = req.param.id;
+  async get(req, res) {
+    try {
+      const product = await productService.getProduct(req);
 
-    ProductModel.findById(id).then((response) => {
       sendResponse(
         res,
         StatusCodes.OK,
         "Product Fetched Successfully",
-        response
+        product
       );
-    });
-  } catch (err) {
-    sendResponse(res, StatusCodes.BAD_REQUEST, err.message);
+    } catch (err) {
+      sendResponse(res, StatusCodes.BAD_REQUEST, err.message);
+    }
   }
-};
 
-const deleteProduct = async (req, res) => {
-  const id = req.params.id;
-
-  try {
-    ProductModel.findByIdAndDelete(id).then(() => {
-      sendResponse(res, StatusCodes.OK, "Product Deleted Successfully");
-    });
-  } catch (err) {
-    sendResponse(res, StatusCodes.BAD_REQUEST, "Failed to Delete Product");
+  async edit(req, res) {
+    try {
+      const product = await productService.updateProduct(req);
+      sendResponse(
+        res,
+        StatusCodes.OK,
+        "Product Updated Successfully",
+        product
+      );
+    } catch (err) {
+      sendResponse(res, StatusCodes.BAD_REQUEST, err.message);
+    }
   }
-};
 
-//aggregation pipeline example
+  async delete(req, res) {
+    try {
+      productService.deleteProduct(req).then(() => {
+        sendResponse(res, StatusCodes.OK, "Product Deleted Successfully");
+      });
+    } catch (err) {
+      sendResponse(res, StatusCodes.BAD_REQUEST, "Failed to Delete Product");
+    }
+  }
+}
+
+// aggregation pipeline example
 const getAggregateProducts = async (req, res) => {
   // const result = await ProductModel.aggregate([
   //   {
@@ -165,11 +138,4 @@ const getAggregateProducts = async (req, res) => {
   }
 };
 
-module.exports = {
-  addProduct,
-  getProducts,
-  updateProduct,
-  getProduct,
-  deleteProduct,
-  getAggregateProducts,
-};
+module.exports = new ProductController();
