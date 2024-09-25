@@ -1,3 +1,5 @@
+const { StatusCodes } = require("http-status-codes");
+const sendResponse = require("../common");
 const ReviewModel = require("../models/review");
 
 class ReviewService {
@@ -24,7 +26,9 @@ class ReviewService {
       const id = req.params.id;
       const options = { new: true };
       ReviewModel.findByIdAndUpdate(id, req.body, options)
-        .then(resolve)
+        .then((resp) => {
+          resolve(resp);
+        })
         .catch(reject);
     });
   }
@@ -32,7 +36,16 @@ class ReviewService {
   async deleteProduct(req) {
     return new Promise((resolve, reject) => {
       const id = req.params.id;
-      ReviewModel.findByIdAndDelete(id).then(resolve).catch(reject);
+
+      ReviewModel.findByIdAndDelete(id)
+        .then((response) => {
+          if (Object.keys(response || {}).length > 0) {
+            resolve("Product Deleted SuccessFully");
+          } else {
+            throw "Product does not exists";
+          }
+        })
+        .catch(reject);
     });
   }
 }

@@ -51,11 +51,10 @@ class ReviewController {
 
   async delete(req, res) {
     try {
-      reviewService.deleteProduct(req).then(() => {
-        sendResponse(res, StatusCodes.OK, "Review Deleted SuccessFully");
-      });
+      const product = await reviewService.deleteProduct(req);
+      sendResponse(res, StatusCodes.OK, product);
     } catch (err) {
-      sendResponse(res, StatusCodes.BAD_REQUEST, err.message);
+      sendResponse(res, StatusCodes.BAD_REQUEST, err.message || err);
     }
   }
 }
