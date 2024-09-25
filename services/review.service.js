@@ -26,9 +26,7 @@ class ReviewService {
       const id = req.params.id;
       const options = { new: true };
       ReviewModel.findByIdAndUpdate(id, req.body, options)
-        .then((resp) => {
-          resolve(resp);
-        })
+        .then(resolve)
         .catch(reject);
     });
   }
