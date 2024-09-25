@@ -6,6 +6,12 @@ class ReviewService {
       ReviewModel.create(req.body).then(resolve).catch(reject);
     });
   }
+
+  async getReviews() {
+    return new Promise((resolve, reject) => {
+      ReviewModel.find().then(resolve).catch(reject);
+    });
+  }
 }
 
 module.exports = new ReviewService();

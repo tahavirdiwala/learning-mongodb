@@ -16,6 +16,20 @@ class ReviewController {
       sendResponse(res, StatusCodes.BAD_REQUEST, err.message);
     }
   }
+
+  async getAll(req, res) {
+    try {
+      const reviews = await reviewService.getReviews();
+      sendResponse(
+        res,
+        StatusCodes.OK,
+        "Reviews Fetched SuccessFully",
+        reviews
+      );
+    } catch (err) {
+      sendResponse(res, StatusCodes.BAD_REQUEST, err.message);
+    }
+  }
 }
 
 module.exports = new ReviewController();
