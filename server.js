@@ -3,6 +3,7 @@ const express = require("express");
 const connectDB = require("./db/connect");
 const app = express();
 const productRouter = require("./routes/product.router");
+const reviewRouter = require("./routes/review.router");
 const userRouter = require("./routes/users.router");
 const cors = require("cors");
 const ProductSchema = require("./models/products");
@@ -12,7 +13,7 @@ const Cars = require("./models/cars");
 app.use(cors());
 app.use(express.json());
 
-const arr = [productRouter, userRouter];
+const arr = [productRouter, userRouter, reviewRouter];
 
 arr.forEach((item) => {
   app.use("/api", item);
