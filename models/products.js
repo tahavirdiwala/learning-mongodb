@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose"),
+  Schema = mongoose;
 
 const productSchema = new mongoose.Schema(
   {
@@ -26,6 +27,12 @@ const productSchema = new mongoose.Schema(
       min: [5, "{VALUE} is very less "],
       index: true,
     },
+    reviews: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Review",
+      },
+    ],
   },
   {
     timestamps: true,
