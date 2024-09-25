@@ -1,5 +1,3 @@
-const { StatusCodes } = require("http-status-codes");
-const sendResponse = require("../common");
 const ReviewModel = require("../models/review");
 
 class ReviewService {
