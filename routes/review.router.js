@@ -2,7 +2,7 @@ const reviewController = require("../controllers/review.controller");
 
 const router = require("express").Router();
 
-router.route("/review").get(reviewController.getAll).post(reviewController.add);
+router.route("/review").post(reviewController.add).get(reviewController.getAll);
 
 router
   .route("/review/:id")
