@@ -25,10 +25,22 @@ class ProductService {
 
     //#region - queries
     return new Promise((resolve, reject) => {
-      ProductsModel.find()
-        .skip((page - 1) * size)
-        .limit(size * 1)
-        .lean()
+      ProductsModel.aggregate([
+        {
+          $lookup: {
+            from: "reviews",
+            localField: "_id",
+            foreignField: "productId",
+            as: "reviews",
+          },
+        },
+        {
+          $skip: (page - 1) * size,
+        },
+        {
+          $limit: size * 1,
+        },
+      ])
         .then(resolve)
         .catch(reject);
     });
