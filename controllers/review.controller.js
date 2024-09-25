@@ -30,6 +30,34 @@ class ReviewController {
       sendResponse(res, StatusCodes.BAD_REQUEST, err.message);
     }
   }
+
+  async get(req, res) {
+    try {
+      const review = await reviewService.getReview(req);
+      sendResponse(res, StatusCodes.OK, "Review Fetched SuccessFully", review);
+    } catch (err) {
+      sendResponse(res, StatusCodes.BAD_REQUEST, err.message);
+    }
+  }
+
+  async edit(req, res) {
+    try {
+      const review = await reviewService.editReview(req);
+      sendResponse(res, StatusCodes.OK, "Reviews Edited SuccessFully", review);
+    } catch (err) {
+      sendResponse(res, StatusCodes.BAD_REQUEST, err.message);
+    }
+  }
+
+  async delete(req, res) {
+    try {
+      reviewService.deleteProduct(req).then(() => {
+        sendResponse(res, StatusCodes.OK, "Review Deleted SuccessFully");
+      });
+    } catch (err) {
+      sendResponse(res, StatusCodes.BAD_REQUEST, err.message);
+    }
+  }
 }
 
 module.exports = new ReviewController();
