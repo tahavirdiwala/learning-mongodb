@@ -1,10 +1,4 @@
 const productController = require("../controllers/product.controller");
-const {
-  getProduct,
-  deleteProduct,
-  getAggregateProducts,
-} = require("../controllers/product.controller");
-const productService = require("../services/product.service");
 const router = require("express").Router();
 
 router
