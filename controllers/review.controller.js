@@ -19,7 +19,7 @@ class ReviewController {
 
   async getAll(req, res) {
     try {
-      const reviews = await reviewService.getReviews();
+      const reviews = await reviewService.getReviews(req);
       sendResponse(
         res,
         StatusCodes.OK,

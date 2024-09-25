@@ -7,7 +7,7 @@ class ReviewService {
     });
   }
 
-  async getReviews() {
+  async getReviews(req) {
     return new Promise((resolve, reject) => {
       ReviewModel.find().then(resolve).catch(reject);
     });
