@@ -5,7 +5,7 @@ const userService = require("../services/user.service");
 class UserController {
   async getAll(req, res) {
     try {
-      const users = await userService.getAll();
+      const users = await userService.getUsers();
       sendResponse(res, StatusCodes.OK, "Users Fetched SuccessFully", users);
     } catch (err) {
       sendResponse(res, StatusCodes.BAD_REQUEST, err.message);
