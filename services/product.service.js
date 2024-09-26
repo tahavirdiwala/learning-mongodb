@@ -1,9 +1,29 @@
 const ProductsModel = require("../models/products");
+const ReviewModel = require("../models/review");
 
 class ProductService {
   async addProduct(req) {
-    return new Promise((resolve, reject) => {
-      ProductsModel.create(req.body).then(resolve).catch(reject);
+    return new Promise(async (resolve, reject) => {
+      const review = await ReviewModel.create({
+        content: "product is so good",
+        rating: 4,
+      });
+
+      const review2 = await ReviewModel.create({
+        content: "product is so ok",
+        rating: 3,
+      });
+
+      await review.save();
+      await review2.save();
+
+      let temp = [];
+
+      temp.push(review._id, review2._id);
+
+      ProductsModel.create({ ...req.body, reviews: temp })
+        .then(resolve)
+        .catch(reject);
     });
   }
 
@@ -25,25 +45,28 @@ class ProductService {
 
     //#region - queries
     return new Promise((resolve, reject) => {
-      ProductsModel.aggregate([
-        {
-          $lookup: {
-            from: "reviews",
-            localField: "_id",
-            foreignField: "productId",
-            as: "reviews",
-          },
-        },
-        {
-          $skip: (page - 1) * size,
-        },
-        {
-          $limit: size * 1,
-        },
-      ])
-        .then(resolve)
-        .catch(reject);
+      // ProductsModel.aggregate([
+      //   {
+      //     $lookup: {
+      //       from: "reviews",
+      //       localField: "_id",
+      //       foreignField: "productId",
+      //       as: "reviews",
+      //     },
+      //   },
+      //   {
+      //     $skip: (page - 1) * size,
+      //   },
+      //   {
+      //     $limit: size * 1,
+      //   },
+      // ])
+      //   .then(resolve)
+      //   .catch(reject);
+
+      ProductsModel.find().populate("reviews").then(resolve).catch(reject);
     });
+
     //#endregion - queries
   }
 
