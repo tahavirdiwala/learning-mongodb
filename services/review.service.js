@@ -29,7 +29,7 @@ class ReviewService {
     });
   }
 
-  async deleteProduct(req) {
+  async deleteReview(req) {
     return new Promise((resolve, reject) => {
       const id = req.params.id;
 
