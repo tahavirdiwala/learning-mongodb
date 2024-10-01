@@ -51,7 +51,7 @@ class ReviewController {
 
   async delete(req, res) {
     try {
-      const product = await reviewService.deleteProduct(req);
+      const product = await reviewService.deleteReview(req);
       sendResponse(res, StatusCodes.OK, product);
     } catch (err) {
       sendResponse(res, StatusCodes.BAD_REQUEST, err.message || err);
